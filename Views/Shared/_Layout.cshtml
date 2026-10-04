@@ -1,0 +1,152 @@
+﻿@{
+    var success = TempData["Success"] as string;
+    var error = TempData["Error"] as string;
+    var wide = ViewData["WideLayout"] as bool? ?? false;
+    var currentCulture = System.Globalization.CultureInfo.CurrentUICulture.Name;
+}
+<!DOCTYPE html>
+<html lang="@currentCulture">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - SimpleWallet</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { DEFAULT: '#25D366', dark: '#128C7E', soft: '#F0FDF4' },
+                        surface: '#F8FAF9',
+                        ink: '#111827',
+                        muted: '#6B7280'
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body class="min-h-screen bg-surface text-ink antialiased">
+    <header class="bg-white border-b border-gray-100 sticky top-0 z-20">
+        <nav class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-8">
+                <a href="~/" class="flex items-center gap-2 font-semibold text-lg">
+                    <span class="w-8 h-8 rounded-lg bg-brand flex items-center justify-center text-white text-sm font-bold">W</span>
+                    <span>Simple<span class="text-brand-dark">Wallet</span></span>
+                </a>
+
+                @if (User.Identity?.IsAuthenticated == true)
+                    {
+                    <div class="hidden sm:flex items-center gap-1 text-sm">
+                        <a asp-controller="Dashboard" asp-action="Index"
+                           class="px-3 py-2 rounded-lg text-muted hover:text-ink hover:bg-surface transition">@Loc["Dashboard"]</a>
+                        <a asp-controller="Wallet" asp-action="Index"
+                           class="px-3 py-2 rounded-lg text-muted hover:text-ink hover:bg-surface transition">@Loc["Wallet"]</a>
+                        <a asp-controller="Transactions" asp-action="Index"
+                           class="px-3 py-2 rounded-lg text-muted hover:text-ink hover:bg-surface transition">@Loc["Transactions"]</a>
+                        <a asp-controller="Profile" asp-action="Index"
+                           class="px-3 py-2 rounded-lg text-muted hover:text-ink hover:bg-surface transition">@Loc["Profile"]</a>
+                        @if (User.IsInRole("Admin"))
+                            {
+                            <a asp-controller="Admin" asp-action="Index"
+                               class="px-3 py-2 rounded-lg text-muted hover:text-ink hover:bg-surface transition">@Loc["Admin"]</a>
+                        }
+                    </div>
+                }
+            </div>
+
+            <div class="flex items-center gap-3">
+                <partial name="_LanguageSwitcher" />
+
+                @if (User.Identity?.IsAuthenticated == true)
+                    {
+                    <span class="hidden sm:inline text-sm text-muted">@User.Identity.Name</span>
+                    <form asp-controller="Account" asp-action="Logout" method="post" class="m-0">
+                        @Html.AntiForgeryToken()
+                        <button type="submit"
+                                class="text-sm px-3 py-2 rounded-lg border border-gray-200 text-muted hover:text-ink hover:bg-surface transition">
+                            @Loc["Logout"]
+                        </button>
+                    </form>
+                }
+                else
+                {
+                    <a asp-controller="Account" asp-action="Login" class="text-sm text-muted hover:text-ink">@Loc["Login"]</a>
+                    <a asp-controller="Account" asp-action="Register"
+                       class="text-sm px-4 py-2 rounded-lg bg-brand hover:bg-brand-dark text-white font-medium transition">
+                        @Loc["Create account"]
+                    </a>
+                }
+            </div>
+        </nav>
+    </header>
+
+    <main class="@(wide ? "" : "max-w-6xl mx-auto px-4 sm:px-6 py-8")">
+        @if (!string.IsNullOrEmpty(success))
+        {
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 @(wide ? "mt-4" : "mb-6") rounded-lg bg-brand-soft border border-green-100 px-4 py-3 text-sm text-brand-dark">
+                @success
+            </div>
+        }
+        @if (!string.IsNullOrEmpty(error))
+        {
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 @(wide ? "mt-4" : "mb-6") rounded-lg bg-red-50 border border-red-100 px-4 py-3 text-sm text-red-600">
+                @error
+            </div>
+        }
+
+        @RenderBody()
+    </main>
+
+    <footer class="border-t border-gray-100 bg-white">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 py-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            <div>
+                <a href="~/" class="flex items-center gap-2 font-semibold text-base">
+                    <span class="w-7 h-7 rounded-lg bg-brand flex items-center justify-center text-white text-xs font-bold">W</span>
+                    <span>Simple<span class="text-brand-dark">Wallet</span></span>
+                </a>
+                <p class="mt-3 text-sm text-muted leading-relaxed">
+                    @Loc["A simple corporate wallet for sending, receiving and tracking money."]
+                </p>
+            </div>
+
+            <div>
+                <h3 class="text-xs font-semibold uppercase tracking-wide text-ink">@Loc["Product"]</h3>
+                <ul class="mt-3 space-y-2 text-sm text-muted">
+                    <li><a asp-controller="Dashboard" asp-action="Index" class="hover:text-ink transition">@Loc["Dashboard"]</a></li>
+                    <li><a asp-controller="Wallet" asp-action="Index" class="hover:text-ink transition">@Loc["Wallet"]</a></li>
+                    <li><a asp-controller="Transactions" asp-action="Index" class="hover:text-ink transition">@Loc["Transactions"]</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 class="text-xs font-semibold uppercase tracking-wide text-ink">@Loc["Account"]</h3>
+                <ul class="mt-3 space-y-2 text-sm text-muted">
+                    <li><a asp-controller="Account" asp-action="Login" class="hover:text-ink transition">@Loc["Sign in"]</a></li>
+                    <li><a asp-controller="Account" asp-action="Register" class="hover:text-ink transition">@Loc["Create account"]</a></li>
+                    <li><a asp-controller="Profile" asp-action="Index" class="hover:text-ink transition">@Loc["Profile"]</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 class="text-xs font-semibold uppercase tracking-wide text-ink">@Loc["Administration"]</h3>
+                <ul class="mt-3 space-y-2 text-sm text-muted">
+                    <li><a asp-controller="Admin" asp-action="Users" class="hover:text-ink transition">@Loc["User management"]</a></li>
+                    <li><a asp-controller="Admin" asp-action="Wallets" class="hover:text-ink transition">@Loc["Wallet overview"]</a></li>
+                    <li><a asp-controller="Admin" asp-action="Transactions" class="hover:text-ink transition">@Loc["Transaction log"]</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="border-t border-gray-50">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-muted">
+                <span>&copy; @DateTime.UtcNow.Year SimpleWallet. @Loc["Internal MVP."]</span>
+                <span>@Loc["Version"] v2 &middot; ASP.NET Core MVC</span>
+            </div>
+        </div>
+    </footer>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,54 @@
+@model LoginViewModel
+@{
+    ViewData["Title"] = "Sign in";
+}
+
+<div class="max-w-md mx-auto py-8">
+    <div class="bg-white border border-gray-100 rounded-xl p-6 sm:p-8 shadow-sm">
+        <h1 class="text-xl font-semibold">@Loc["Sign in"]</h1>
+        <p class="mt-1 text-sm text-muted">@Loc["Access your wallet."]</p>
+
+        <form asp-controller="Account" asp-action="Login" method="post" class="mt-6 space-y-4" novalidate>
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="returnUrl" value="@ViewData["ReturnUrl"]" />
+            <div asp-validation-summary="ModelOnly" class="text-sm text-red-600"></div>
+
+            <div>
+                <label asp-for="Email" class="block text-sm font-medium mb-1"></label>
+                <input asp-for="Email" class="w-full rounded-lg border border-gray-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand/40 focus:border-brand" placeholder="you@example.com" />
+                <span asp-validation-for="Email" class="text-xs text-red-600"></span>
+            </div>
+
+            <div>
+                <label asp-for="Password" class="block text-sm font-medium mb-1"></label>
+                <input asp-for="Password" class="w-full rounded-lg border border-gray-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand/40 focus:border-brand" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" />
+                <span asp-validation-for="Password" class="text-xs text-red-600"></span>
+            </div>
+
+            <label class="flex items-center gap-2 text-sm text-muted">
+                <input asp-for="RememberMe" class="rounded border-gray-300 text-brand focus:ring-brand/40" />
+                <span>@Loc["Remember me"]</span>
+            </label>
+
+            <button type="submit"
+                    class="w-full px-4 py-2.5 rounded-lg bg-brand hover:bg-brand-dark text-white font-medium transition">
+                @Loc["Sign in"]
+            </button>
+        </form>
+
+        <p class="mt-5 text-sm text-muted text-center">
+            @Loc["No account yet?"]
+            <a asp-controller="Account" asp-action="Register" class="text-brand-dark font-medium">@Loc["Create one"]</a>
+        </p>
+    </div>
+
+    <div class="mt-4 bg-white border border-gray-100 rounded-xl p-4 text-xs text-muted">
+        <div class="font-medium text-ink mb-1">@Loc["Demo accounts"]</div>
+        <div>admin@example.com / Admin123!</div>
+        <div>user@example.com / User123!</div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

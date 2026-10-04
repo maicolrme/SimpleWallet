@@ -1,0 +1,39 @@
+@model IReadOnlyList<Wallet>
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Wallets";
+}
+
+<h1 class="text-xl font-semibold">@Loc["Wallets"]</h1>
+<p class="text-sm text-muted mb-6">@Loc["Balances across the platform."]</p>
+
+<div class="bg-white border border-gray-100 rounded-xl shadow-sm overflow-x-auto">
+    <table class="w-full">
+        <thead>
+            <tr class="text-left text-xs text-muted">
+                <th class="px-6 py-3 font-medium">@Loc["Owner"]</th>
+                <th class="px-6 py-3 font-medium">@Loc["Address"]</th>
+                <th class="px-6 py-3 font-medium">@Loc["Currency"]</th>
+                <th class="px-6 py-3 font-medium text-right">@Loc["Balance"]</th>
+                <th class="px-6 py-3 font-medium">@Loc["Created"]</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var wallet in Model)
+            {
+                <tr class="border-t border-gray-50 hover:bg-surface/60">
+                    <td class="px-6 py-3 text-sm">
+                        <a asp-action="UserDetails" asp-route-id="@wallet.UserId" class="font-medium hover:underline">
+                            @wallet.User.FullName
+                        </a>
+                        <div class="text-xs text-muted">@wallet.User.Email</div>
+                    </td>
+                    <td class="px-6 py-3 text-sm"><code>@wallet.Address</code></td>
+                    <td class="px-6 py-3 text-sm">@wallet.Currency</td>
+                    <td class="px-6 py-3 text-sm text-right font-medium">€@wallet.Balance.ToString("N2")</td>
+                    <td class="px-6 py-3 text-sm text-muted">@wallet.CreatedAt.ToLocalTime().ToString("dd MMM yyyy")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

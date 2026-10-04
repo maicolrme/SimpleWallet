@@ -1,0 +1,44 @@
+@{
+    var currentCulture = System.Globalization.CultureInfo.CurrentUICulture.Name;
+    var currentLang = currentCulture.StartsWith("es") ? "ES" : currentCulture.StartsWith("it") ? "IT" : "EN";
+    var returnUrl = Context.Request.Path + Context.Request.QueryString;
+}
+
+<details class="relative group" id="langSwitcher">
+    <summary class="list-none cursor-pointer flex items-center gap-1.5 text-xs font-medium px-2.5 py-1.5 rounded-lg border border-gray-200 text-muted hover:text-ink hover:bg-surface transition select-none"
+             aria-label="@Loc["Language"]">
+        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="9" />
+            <path d="M3 12h18M12 3c2.5 2.7 2.5 15.3 0 18M12 3c-2.5 2.7-2.5 15.3 0 18" />
+        </svg>
+        <span>@currentLang</span>
+        <span class="text-[9px]">&#9662;</span>
+    </summary>
+
+    <div class="absolute right-0 mt-2 w-44 bg-white border border-gray-100 rounded-xl shadow-sm py-1.5 z-30">
+        <form asp-controller="Culture" asp-action="Set" method="post">
+            <input type="hidden" name="culture" value="en-US" />
+            <input type="hidden" name="returnUrl" value="@returnUrl" />
+            <button type="submit"
+                    class="w-full text-left px-3 py-2 text-sm @(currentLang == "EN" ? "text-brand-dark font-medium bg-brand-soft" : "text-muted hover:text-ink hover:bg-surface")">
+                English
+            </button>
+        </form>
+        <form asp-controller="Culture" asp-action="Set" method="post">
+            <input type="hidden" name="culture" value="es-ES" />
+            <input type="hidden" name="returnUrl" value="@returnUrl" />
+            <button type="submit"
+                    class="w-full text-left px-3 py-2 text-sm @(currentLang == "ES" ? "text-brand-dark font-medium bg-brand-soft" : "text-muted hover:text-ink hover:bg-surface")">
+                Espa&ntilde;ol
+            </button>
+        </form>
+        <form asp-controller="Culture" asp-action="Set" method="post">
+            <input type="hidden" name="culture" value="it-IT" />
+            <input type="hidden" name="returnUrl" value="@returnUrl" />
+            <button type="submit"
+                    class="w-full text-left px-3 py-2 text-sm @(currentLang == "IT" ? "text-brand-dark font-medium bg-brand-soft" : "text-muted hover:text-ink hover:bg-surface")">
+                Italiano
+            </button>
+        </form>
+    </div>
+</details>

@@ -1,0 +1,97 @@
+@model DashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+    var wallet = Model.Wallet;
+    var summary = Model.Summary;
+}
+
+<div class="flex items-center justify-between mb-6">
+    <div>
+        <h1 class="text-xl font-semibold">@Loc["Hello"], @Model.Profile.FirstName</h1>
+        <p class="text-sm text-muted">@Loc["Here is your wallet at a glance."]</p>
+    </div>
+    <a asp-controller="Wallet" asp-action="Send"
+       class="px-4 py-2 rounded-lg bg-brand hover:bg-brand-dark text-white text-sm font-medium transition">
+        @Loc["Send money"]
+    </a>
+</div>
+
+<div class="grid lg:grid-cols-3 gap-4">
+    <div class="lg:col-span-2 bg-white border border-gray-100 rounded-xl p-6 shadow-sm">
+        <div class="text-sm text-muted">@Loc["Current balance"]</div>
+        <div class="mt-2 text-4xl font-semibold text-ink">
+            €@((wallet?.Balance ?? 0m).ToString("N2"))
+        </div>
+        <div class="mt-1 text-xs text-muted">
+            @(wallet?.Currency ?? "EUR") &middot; @(wallet?.Address ?? "-")
+        </div>
+
+        <div class="mt-6 flex flex-wrap gap-3">
+            <a asp-controller="Wallet" asp-action="Send"
+               class="px-4 py-2 rounded-lg bg-brand hover:bg-brand-dark text-white text-sm font-medium transition">
+                @Loc["Send"]
+            </a>
+            <a asp-controller="Wallet" asp-action="Index"
+               class="px-4 py-2 rounded-lg border border-gray-200 hover:bg-surface text-sm font-medium transition">
+                @Loc["Receive"]
+            </a>
+            <a asp-controller="Transactions" asp-action="Index"
+               class="px-4 py-2 rounded-lg border border-gray-200 hover:bg-surface text-sm font-medium transition">
+                @Loc["All transactions"]
+            </a>
+        </div>
+    </div>
+
+    <div class="bg-white border border-gray-100 rounded-xl p-6 shadow-sm">
+        <div class="text-sm text-muted">@Loc["Totals"]</div>
+        <dl class="mt-4 space-y-4">
+            <div class="flex items-center justify-between">
+                <dt class="text-sm text-muted">@Loc["Received"]</dt>
+                <dd class="text-sm font-medium text-brand-dark">€@summary.TotalReceived.ToString("N2")</dd>
+            </div>
+            <div class="flex items-center justify-between">
+                <dt class="text-sm text-muted">@Loc["Sent"]</dt>
+                <dd class="text-sm font-medium">€@summary.TotalSent.ToString("N2")</dd>
+            </div>
+            <div class="flex items-center justify-between border-t border-gray-50 pt-4">
+                <dt class="text-sm text-muted">@Loc["Transactions"]</dt>
+                <dd class="text-sm font-medium">@summary.Count</dd>
+            </div>
+        </dl>
+    </div>
+</div>
+
+<div class="mt-6 bg-white border border-gray-100 rounded-xl shadow-sm">
+    <div class="px-6 py-4 flex items-center justify-between">
+        <h2 class="text-sm font-semibold">@Loc["Recent transactions"]</h2>
+        <a asp-controller="Transactions" asp-action="Index" class="text-xs text-brand-dark hover:underline">@Loc["View all"]</a>
+    </div>
+
+    @if (Model.RecentTransactions.Count == 0)
+    {
+        <div class="px-6 py-8 text-sm text-muted border-t border-gray-50">
+            @Loc["No transactions yet."]
+        </div>
+    }
+    else
+    {
+        <div class="overflow-x-auto px-6 pb-4">
+            <table class="w-full">
+                <thead>
+                    <tr class="text-left text-xs text-muted">
+                        <th class="py-2 pr-4 font-medium">@Loc["Date"]</th>
+                        <th class="py-2 pr-4 font-medium">@Loc["Description"]</th>
+                        <th class="py-2 pr-4 font-medium">@Loc["Type"]</th>
+                        <th class="py-2 text-right font-medium">@Loc["Amount"]</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var transaction in Model.RecentTransactions)
+                    {
+                        <partial name="_TransactionRow" model="transaction" />
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

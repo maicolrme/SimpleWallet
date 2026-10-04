@@ -1,0 +1,48 @@
+@model SendMoneyViewModel
+@{
+    ViewData["Title"] = "Send money";
+}
+
+<div class="max-w-lg mx-auto">
+    <a asp-action="Index" class="text-sm text-muted hover:text-ink">&larr; @Loc["Back to wallet"]</a>
+
+    <div class="mt-4 bg-white border border-gray-100 rounded-xl p-6 sm:p-8 shadow-sm">
+        <h1 class="text-xl font-semibold">@Loc["Send money"]</h1>
+        <p class="mt-1 text-sm text-muted">@Loc["Transfers are instant and final."]</p>
+
+        <form asp-action="Send" method="post" class="mt-6 space-y-4" novalidate>
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly" class="text-sm text-red-600"></div>
+
+            <div>
+                <label asp-for="RecipientEmail" class="block text-sm font-medium mb-1">@Loc["Recipient email"]</label>
+                <input asp-for="RecipientEmail" class="w-full rounded-lg border border-gray-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand/40 focus:border-brand" placeholder="recipient@example.com" />
+                <span asp-validation-for="RecipientEmail" class="text-xs text-red-600"></span>
+            </div>
+
+            <div>
+                <label asp-for="Amount" class="block text-sm font-medium mb-1">@Loc["Amount"]</label>
+                <div class="relative">
+                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-muted text-sm">€</span>
+                    <input asp-for="Amount" class="w-full rounded-lg border border-gray-200 pl-7 pr-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand/40 focus:border-brand" placeholder="0.00" />
+                </div>
+                <span asp-validation-for="Amount" class="text-xs text-red-600"></span>
+            </div>
+
+            <div>
+                <label asp-for="Description" class="block text-sm font-medium mb-1">@Loc["Description"]</label>
+                <input asp-for="Description" maxlength="255" class="w-full rounded-lg border border-gray-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand/40 focus:border-brand" placeholder="@Loc["What is this for?"]" />
+                <span asp-validation-for="Description" class="text-xs text-red-600"></span>
+            </div>
+
+            <button type="submit"
+                    class="w-full px-4 py-2.5 rounded-lg bg-brand hover:bg-brand-dark text-white font-medium transition">
+                @Loc["Send money"]
+            </button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

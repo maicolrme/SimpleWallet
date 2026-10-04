@@ -1,0 +1,8 @@
+bin/
+obj/
+wallet.db
+wallet.db-*
+keys/
+.git/
+.vs/
+*.md

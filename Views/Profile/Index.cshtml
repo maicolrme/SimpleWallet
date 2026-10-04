@@ -1,0 +1,52 @@
+@model ProfileViewModel
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<div class="max-w-lg">
+    <div class="flex items-center justify-between mb-6">
+        <div>
+            <h1 class="text-xl font-semibold">@Loc["Profile"]</h1>
+            <p class="text-sm text-muted">@Loc["Your personal information."]</p>
+        </div>
+        <a asp-action="ChangePassword"
+           class="text-sm px-3 py-2 rounded-lg border border-gray-200 bg-white hover:bg-surface transition">
+            @Loc["Change password"]
+        </a>
+    </div>
+
+    <div class="bg-white border border-gray-100 rounded-xl p-6 shadow-sm">
+        <form asp-action="Index" method="post" class="space-y-4" novalidate>
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly" class="text-sm text-red-600"></div>
+
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label for="FirstName" class="block text-sm font-medium mb-1">@Loc["First name"]</label>
+                    <input asp-for="FirstName" class="w-full rounded-lg border border-gray-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand/40 focus:border-brand" />
+                    <span asp-validation-for="FirstName" class="text-xs text-red-600"></span>
+                </div>
+                <div>
+                    <label for="LastName" class="block text-sm font-medium mb-1">@Loc["Last name"]</label>
+                    <input asp-for="LastName" class="w-full rounded-lg border border-gray-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand/40 focus:border-brand" />
+                    <span asp-validation-for="LastName" class="text-xs text-red-600"></span>
+                </div>
+            </div>
+
+            <div>
+                <label for="Email" class="block text-sm font-medium mb-1">@Loc["Email"]</label>
+                <input asp-for="Email" class="w-full rounded-lg border border-gray-100 bg-surface px-3 py-2 text-muted" readonly />
+                <p class="mt-1 text-xs text-muted">@Loc["Email cannot be changed."]</p>
+            </div>
+
+            <button type="submit"
+                    class="px-4 py-2 rounded-lg bg-brand hover:bg-brand-dark text-white text-sm font-medium transition">
+                @Loc["Save changes"]
+            </button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

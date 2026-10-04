@@ -1,0 +1,43 @@
+@model IReadOnlyList<User>
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Users";
+}
+
+<h1 class="text-xl font-semibold">@Loc["Users"]</h1>
+<p class="text-sm text-muted mb-6">@Loc["All registered accounts."]</p>
+
+<div class="bg-white border border-gray-100 rounded-xl shadow-sm overflow-x-auto">
+    <table class="w-full">
+        <thead>
+            <tr class="text-left text-xs text-muted">
+                <th class="px-6 py-3 font-medium">@Loc["Name"]</th>
+                <th class="px-6 py-3 font-medium">@Loc["Email"]</th>
+                <th class="px-6 py-3 font-medium">@Loc["Role"]</th>
+                <th class="px-6 py-3 font-medium">@Loc["Status"]</th>
+                <th class="px-6 py-3 font-medium">@Loc["Balance"]</th>
+                <th class="px-6 py-3 font-medium text-right">@Loc["Actions"]</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr class="border-t border-gray-50 hover:bg-surface/60">
+                    <td class="px-6 py-3 text-sm font-medium">@user.FullName</td>
+                    <td class="px-6 py-3 text-sm text-muted">@user.Email</td>
+                    <td class="px-6 py-3 text-sm">@user.Role</td>
+                    <td class="px-6 py-3">
+                        <span class="text-xs px-2 py-1 rounded-full @(user.IsActive ? "bg-brand-soft text-brand-dark" : "bg-red-50 text-red-600")">
+                            @(user.IsActive ? Loc["Active"] : Loc["Inactive"])
+                        </span>
+                    </td>
+                    <td class="px-6 py-3 text-sm">€@((user.Wallet?.Balance ?? 0m).ToString("N2"))</td>
+                    <td class="px-6 py-3 text-right">
+                        <a asp-action="UserDetails" asp-route-id="@user.Id"
+                           class="text-xs text-brand-dark hover:underline">@Loc["Details"]</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

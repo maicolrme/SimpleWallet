@@ -1,0 +1,363 @@
+﻿@{
+    ViewData["Title"] = "Corporate wallet";
+    ViewData["WideLayout"] = true;
+}
+
+@* ---------- Hero ---------- *@
+<section class="bg-white border-b border-gray-100">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16 lg:py-24 grid lg:grid-cols-2 gap-12 items-center">
+        <div>
+            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight tracking-tight">
+                @Loc["Move company money with clarity and control."]
+            </h1>
+
+            <p class="mt-5 text-muted text-base sm:text-lg leading-relaxed max-w-xl">
+                @Loc["SimpleWallet gives finance teams a single place to send transfers, track balances and review every movement — without spreadsheets or guesswork."]
+            </p>
+
+            <div class="mt-8 flex flex-wrap gap-3">
+                <a asp-controller="Account" asp-action="Register"
+                   class="px-6 py-3 rounded-lg bg-brand hover:bg-brand-dark text-white font-medium transition">
+                    @Loc["Open an account"]
+                </a>
+                <a asp-controller="Account" asp-action="Login"
+                   class="px-6 py-3 rounded-lg border border-gray-200 bg-white hover:bg-surface font-medium transition">
+                    @Loc["Sign in"]
+                </a>
+            </div>
+        </div>
+
+        @* Product preview *@
+        <div class="bg-white border border-gray-100 rounded-2xl shadow-sm p-6">
+            <div class="flex items-center justify-between">
+                <div class="text-xs text-muted uppercase tracking-wide">@Loc["Account balance"]</div>
+                <span class="text-xs px-2 py-1 rounded-full bg-brand-soft text-brand-dark">@Loc["Active"]</span>
+            </div>
+
+            <div class="mt-2 text-4xl font-semibold">€1,000.00</div>
+            <div class="mt-1 text-xs text-muted">EUR &middot; WLT-8F2A41C9D0</div>
+
+            <div class="mt-5 grid grid-cols-2 gap-3">
+                <div class="rounded-lg bg-brand text-white text-sm font-medium text-center py-2.5">@Loc["Send"]</div>
+                <div class="rounded-lg border border-gray-200 text-sm font-medium text-center py-2.5">@Loc["Receive"]</div>
+            </div>
+
+            <div class="mt-6 border-t border-gray-50 pt-4">
+                <div class="text-xs font-semibold text-ink">@Loc["Recent activity"]</div>
+                <ul class="mt-3 space-y-3 text-sm">
+                    <li class="flex items-center justify-between gap-4">
+                        <div>
+                            <div class="font-medium">@Loc["Supplier payment"]</div>
+                            <div class="text-xs text-muted">12 Oct 2026 &middot; To Northwind Ltd</div>
+                        </div>
+                        <div class="font-medium">- €420.00</div>
+                    </li>
+                    <li class="flex items-center justify-between gap-4">
+                        <div>
+                            <div class="font-medium">@Loc["Customer deposit"]</div>
+                            <div class="text-xs text-muted">11 Oct 2026 &middot; From Acme Corp</div>
+                        </div>
+                        <div class="font-medium text-brand-dark">+ €1,250.00</div>
+                    </li>
+                    <li class="flex items-center justify-between gap-4">
+                        <div>
+                            <div class="font-medium">@Loc["Payroll run"]</div>
+                            <div class="text-xs text-muted">09 Oct 2026 &middot; 12 recipients</div>
+                        </div>
+                        <div class="font-medium">- €3,600.00</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+@* ---------- Slider ---------- *@
+<section class="bg-surface border-b border-gray-100">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16 lg:py-20">
+        <div class="max-w-2xl">
+            <span class="text-xs font-medium uppercase tracking-wide text-brand-dark">@Loc["Platform tour"]</span>
+            <h2 class="mt-3 text-2xl sm:text-3xl font-semibold tracking-tight">@Loc["Everything your wallet can do"]</h2>
+            <p class="mt-3 text-muted leading-relaxed">
+                @Loc["Three core workflows, one interface. Swipe or use the controls to browse."]
+            </p>
+        </div>
+
+        <div id="slider" class="mt-8 relative bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm pb-14"
+             role="region" aria-roledescription="carousel" aria-label="@Loc["Platform features"]" tabindex="0">
+            <div id="sliderTrack" class="flex transition-transform duration-500 ease-out">
+                @* Slide 1 *@
+                <article class="min-w-full grid md:grid-cols-2 gap-8 p-6 sm:p-10 items-center"
+                         role="group" aria-roledescription="slide" aria-label="@Loc["Slide 1 of 3"]">
+                    <div>
+                        <span class="text-xs font-semibold uppercase tracking-wide text-muted">01 &middot; @Loc["Transfers"]</span>
+                        <h3 class="mt-3 text-xl sm:text-2xl font-semibold">@Loc["Send money in seconds"]</h3>
+                        <p class="mt-3 text-muted leading-relaxed">
+                            @Loc["Enter the recipient email, the amount and a description. The wallet validates the balance, the account status and the recipient before anything moves."]
+                        </p>
+                        <ul class="mt-5 space-y-2 text-sm text-ink">
+                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-brand"></span>@Loc["Instant settlement between wallets"]</li>
+                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-brand"></span>@Loc["No transfers to yourself or inactive accounts"]</li>
+                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-brand"></span>@Loc["Negative balances are never allowed"]</li>
+                        </ul>
+                    </div>
+
+                    <div class="rounded-xl border border-gray-100 bg-surface p-5">
+                        <div class="text-xs font-semibold text-ink">@Loc["New transfer"]</div>
+                        <div class="mt-3 space-y-2 text-sm">
+                            <div class="rounded-lg border border-gray-100 bg-white px-3 py-2 text-muted">recipient@company.com</div>
+                            <div class="rounded-lg border border-gray-100 bg-white px-3 py-2 text-muted">€ 150.50</div>
+                            <div class="rounded-lg border border-gray-100 bg-white px-3 py-2 text-muted">Invoice #2041</div>
+                            <div class="rounded-lg bg-brand text-white text-center px-3 py-2 font-medium">@Loc["Send money"]</div>
+                        </div>
+                    </div>
+                </article>
+
+                @* Slide 2 *@
+                <article class="min-w-full grid md:grid-cols-2 gap-8 p-6 sm:p-10 items-center"
+                         role="group" aria-roledescription="slide" aria-label="@Loc["Slide 2 of 3"]" aria-hidden="true">
+                    <div>
+                        <span class="text-xs font-semibold uppercase tracking-wide text-muted">02 &middot; @Loc["History"]</span>
+                        <h3 class="mt-3 text-xl sm:text-2xl font-semibold">@Loc["Every movement, documented"]</h3>
+                        <p class="mt-3 text-muted leading-relaxed">
+                            @Loc["Deposits, withdrawals and transfers land in a single list with date, counterparty, type and amount. Filter by received or sent in one click."]
+                        </p>
+                        <ul class="mt-5 space-y-2 text-sm text-ink">
+                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-brand"></span>@Loc["All, Received and Sent views"]</li>
+                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-brand"></span>@Loc["Totals for received and sent money"]</li>
+                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-brand"></span>@Loc["Descriptions kept for every entry"]</li>
+                        </ul>
+                    </div>
+
+                    <div class="rounded-xl border border-gray-100 bg-surface p-5">
+                        <div class="flex items-center gap-1 text-xs">
+                            <span class="px-2 py-1 rounded-md bg-brand text-white">@Loc["All"]</span>
+                            <span class="px-2 py-1 rounded-md bg-white border border-gray-100 text-muted">@Loc["Received"]</span>
+                            <span class="px-2 py-1 rounded-md bg-white border border-gray-100 text-muted">@Loc["Sent"]</span>
+                        </div>
+                        <ul class="mt-4 space-y-3 text-sm">
+                            <li class="flex items-center justify-between bg-white border border-gray-100 rounded-lg px-3 py-2">
+                                <span>@Loc["Supplier payment"]</span><span class="font-medium">- €420.00</span>
+                            </li>
+                            <li class="flex items-center justify-between bg-white border border-gray-100 rounded-lg px-3 py-2">
+                                <span class="text-brand-dark font-medium">+ €1,250.00</span><span class="text-muted">@Loc["Customer deposit"]</span>
+                            </li>
+                            <li class="flex items-center justify-between bg-white border border-gray-100 rounded-lg px-3 py-2">
+                                <span>@Loc["Cash withdrawal"]</span><span class="font-medium">- €300.00</span>
+                            </li>
+                        </ul>
+                    </div>
+                </article>
+
+                @* Slide 3 *@
+                <article class="min-w-full grid md:grid-cols-2 gap-8 p-6 sm:p-10 items-center"
+                         role="group" aria-roledescription="slide" aria-label="@Loc["Slide 3 of 3"]" aria-hidden="true">
+                    <div>
+                        <span class="text-xs font-semibold uppercase tracking-wide text-muted">03 &middot; @Loc["Governance"]</span>
+                        <h3 class="mt-3 text-xl sm:text-2xl font-semibold">@Loc["Control from day one"]</h3>
+                        <p class="mt-3 text-muted leading-relaxed">
+                            @Loc["Admins review users, balances and the transaction log from one panel, activate or deactivate accounts and assign roles. Authorization is always checked on the server."]
+                        </p>
+                        <ul class="mt-5 space-y-2 text-sm text-ink">
+                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-brand"></span>@Loc["User and role management"]</li>
+                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-brand"></span>@Loc["Platform-wide wallet overview"]</li>
+                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-brand"></span>@Loc["Latest 200 transactions in one view"]</li>
+                        </ul>
+                    </div>
+
+                    <div class="rounded-xl border border-gray-100 bg-surface p-5">
+                        <div class="grid grid-cols-3 gap-2 text-center text-xs">
+                            <div class="rounded-lg bg-white border border-gray-100 py-3">
+                                <div class="text-lg font-semibold">2</div><div class="text-muted">@Loc["Users"]</div>
+                            </div>
+                            <div class="rounded-lg bg-white border border-gray-100 py-3">
+                                <div class="text-lg font-semibold">2</div><div class="text-muted">@Loc["Wallets"]</div>
+                            </div>
+                            <div class="rounded-lg bg-white border border-gray-100 py-3">
+                                <div class="text-lg font-semibold">1</div><div class="text-muted">@Loc["Transfer"]</div>
+                            </div>
+                        </div>
+                        <ul class="mt-3 space-y-2 text-sm">
+                            <li class="flex items-center justify-between bg-white border border-gray-100 rounded-lg px-3 py-2">
+                                <span>Ada Admin</span><span class="text-xs px-2 py-0.5 rounded-full bg-brand-soft text-brand-dark">@Loc["Active"]</span>
+                            </li>
+                            <li class="flex items-center justify-between bg-white border border-gray-100 rounded-lg px-3 py-2">
+                                <span>Sam User</span><span class="text-xs px-2 py-0.5 rounded-full bg-brand-soft text-brand-dark">@Loc["Active"]</span>
+                            </li>
+                        </ul>
+                    </div>
+                </article>
+            </div>
+
+            <button id="sliderPrev" type="button" aria-label="@Loc["Previous slide"]"
+                    class="hidden sm:flex absolute left-4 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white border border-gray-200 text-muted hover:text-ink hover:bg-surface items-center justify-center transition">
+                &#8249;
+            </button>
+            <button id="sliderNext" type="button" aria-label="@Loc["Next slide"]"
+                    class="hidden sm:flex absolute right-4 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white border border-gray-200 text-muted hover:text-ink hover:bg-surface items-center justify-center transition">
+                &#8250;
+            </button>
+
+            <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2" id="sliderDots">
+                <button type="button" class="w-6 h-1.5 rounded-full bg-brand transition" aria-label="@Loc["Go to slide 1"]" aria-current="true"></button>
+                <button type="button" class="w-2.5 h-1.5 rounded-full bg-gray-200 hover:bg-gray-300 transition" aria-label="@Loc["Go to slide 2"]"></button>
+                <button type="button" class="w-2.5 h-1.5 rounded-full bg-gray-200 hover:bg-gray-300 transition" aria-label="@Loc["Go to slide 3"]"></button>
+            </div>
+        </div>
+    </div>
+</section>
+
+@* ---------- Capabilities ---------- *@
+<section class="bg-white border-b border-gray-100">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16 lg:py-20">
+        <div class="max-w-2xl">
+            <span class="text-xs font-medium uppercase tracking-wide text-brand-dark">@Loc["Why teams use it"]</span>
+            <h2 class="mt-3 text-2xl sm:text-3xl font-semibold tracking-tight">@Loc["Built for control, not complexity"]</h2>
+        </div>
+
+        <div class="mt-8 grid md:grid-cols-3 gap-4">
+            <div class="rounded-xl border border-gray-100 p-6">
+                <div class="w-9 h-9 rounded-lg bg-brand-soft text-brand-dark flex items-center justify-center font-semibold text-sm">01</div>
+                <h3 class="mt-4 font-semibold">@Loc["Security first"]</h3>
+                <p class="mt-2 text-sm text-muted leading-relaxed">
+                    @Loc["Passwords are never stored in plain text. Sessions expire, antiforgery tokens protect every form and private pages require authentication."]
+                </p>
+            </div>
+            <div class="rounded-xl border border-gray-100 p-6">
+                <div class="w-9 h-9 rounded-lg bg-brand-soft text-brand-dark flex items-center justify-center font-semibold text-sm">02</div>
+                <h3 class="mt-4 font-semibold">@Loc["Roles and permissions"]</h3>
+                <p class="mt-2 text-sm text-muted leading-relaxed">
+                    @Loc["Regular users manage their own wallet. Admins manage the platform. Server-side checks decide access, never the interface."]
+                </p>
+            </div>
+            <div class="rounded-xl border border-gray-100 p-6">
+                <div class="w-9 h-9 rounded-lg bg-brand-soft text-brand-dark flex items-center justify-center font-semibold text-sm">03</div>
+                <h3 class="mt-4 font-semibold">@Loc["Consistent balances"]</h3>
+                <p class="mt-2 text-sm text-muted leading-relaxed">
+                    @Loc["Both sides of a transfer change inside one database transaction. Either the full movement is recorded, or nothing happens."]
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+@* ---------- Value band ---------- *@
+<section class="bg-surface border-b border-gray-100">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-12 grid grid-cols-2 lg:grid-cols-4 gap-6 text-center">
+        <div>
+            <div class="text-2xl font-semibold text-ink">@Loc["Instant"]</div>
+            <div class="mt-1 text-sm text-muted">@Loc["Transfer settlement"]</div>
+        </div>
+        <div>
+            <div class="text-2xl font-semibold text-ink">€0.00</div>
+            <div class="mt-1 text-sm text-muted">@Loc["Platform fees"]</div>
+        </div>
+        <div>
+            <div class="text-2xl font-semibold text-ink">2</div>
+            <div class="mt-1 text-sm text-muted">@Loc["Roles out of the box"]</div>
+        </div>
+        <div>
+            <div class="text-2xl font-semibold text-ink">100%</div>
+            <div class="mt-1 text-sm text-muted">@Loc["Movements recorded"]</div>
+        </div>
+    </div>
+</section>
+
+@* ---------- CTA ---------- *@
+<section class="bg-white">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16 lg:py-20 text-center">
+        <h2 class="text-2xl sm:text-3xl font-semibold tracking-tight">@Loc["Open your wallet in under a minute"]</h2>
+        <p class="mt-3 text-muted max-w-xl mx-auto leading-relaxed">
+            @Loc["Register, receive your wallet automatically and send your first transfer. Demo accounts are available on the sign-in page."]
+        </p>
+        <div class="mt-7 flex flex-wrap justify-center gap-3">
+            <a asp-controller="Account" asp-action="Register"
+               class="px-6 py-3 rounded-lg bg-brand hover:bg-brand-dark text-white font-medium transition">
+                @Loc["Create account"]
+            </a>
+            <a asp-controller="Account" asp-action="Login"
+               class="px-6 py-3 rounded-lg border border-gray-200 hover:bg-surface font-medium transition">
+                @Loc["Sign in instead"]
+            </a>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        (function () {
+            const slider = document.getElementById('slider');
+            const track = document.getElementById('sliderTrack');
+            const dots = Array.from(document.getElementById('sliderDots').children);
+            const slides = Array.from(track.children);
+            const total = slides.length;
+            const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            let index = 0;
+            let timer = null;
+
+            function render() {
+                track.style.transform = 'translateX(-' + (index * 100) + '%)';
+                slides.forEach(function (slide, i) {
+                    slide.setAttribute('aria-hidden', i === index ? 'false' : 'true');
+                });
+                dots.forEach(function (dot, i) {
+                    const active = i === index;
+                    dot.className = active
+                        ? 'w-6 h-1.5 rounded-full bg-brand transition'
+                        : 'w-2.5 h-1.5 rounded-full bg-gray-200 hover:bg-gray-300 transition';
+                    if (active) { dot.setAttribute('aria-current', 'true'); }
+                    else { dot.removeAttribute('aria-current'); }
+                });
+            }
+
+            function go(i) {
+                index = (i + total) % total;
+                render();
+            }
+
+            function start() {
+                if (reduceMotion || timer) return;
+                timer = setInterval(function () { go(index + 1); }, 6000);
+            }
+
+            function stop() {
+                clearInterval(timer);
+                timer = null;
+            }
+
+            document.getElementById('sliderPrev').addEventListener('click', function () { go(index - 1); });
+            document.getElementById('sliderNext').addEventListener('click', function () { go(index + 1); });
+
+            dots.forEach(function (dot, i) {
+                dot.addEventListener('click', function () { go(i); });
+            });
+
+            slider.addEventListener('mouseenter', stop);
+            slider.addEventListener('mouseleave', start);
+            slider.addEventListener('focusin', stop);
+            slider.addEventListener('focusout', start);
+
+            slider.addEventListener('keydown', function (e) {
+                if (e.key === 'ArrowLeft') { go(index - 1); }
+                if (e.key === 'ArrowRight') { go(index + 1); }
+            });
+
+            let startX = null;
+            slider.addEventListener('touchstart', function (e) {
+                startX = e.touches[0].clientX;
+                stop();
+            }, { passive: true });
+
+            slider.addEventListener('touchend', function (e) {
+                if (startX === null) return;
+                const delta = e.changedTouches[0].clientX - startX;
+                if (Math.abs(delta) > 50) { go(index + (delta < 0 ? 1 : -1)); }
+                startX = null;
+                start();
+            });
+
+            render();
+            start();
+        })();
+    </script>
+}

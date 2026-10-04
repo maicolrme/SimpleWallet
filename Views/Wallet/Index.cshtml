@@ -1,0 +1,91 @@
+@model Wallet?
+@{
+    ViewData["Title"] = "Wallet";
+}
+
+<div class="flex items-center justify-between mb-6">
+    <div>
+        <h1 class="text-xl font-semibold">@Loc["Wallet"]</h1>
+        <p class="text-sm text-muted">@Loc["Your balance and account details."]</p>
+    </div>
+    <a asp-action="Send"
+       class="px-4 py-2 rounded-lg bg-brand hover:bg-brand-dark text-white text-sm font-medium transition">
+        @Loc["Send money"]
+    </a>
+</div>
+
+@if (Model is null)
+{
+    <div class="bg-white border border-gray-100 rounded-xl p-6 text-sm text-muted">
+        @Loc["Wallet not found."]
+    </div>
+}
+else
+{
+    <div class="grid lg:grid-cols-3 gap-4">
+        <div class="lg:col-span-2 bg-white border border-gray-100 rounded-xl p-6 shadow-sm">
+            <div class="text-sm text-muted">@Loc["Balance"]</div>
+            <div class="mt-2 text-4xl font-semibold">€@Model.Balance.ToString("N2")</div>
+            <div class="mt-1 text-xs text-muted">@Model.Currency</div>
+
+            <div class="mt-6 rounded-lg bg-surface border border-gray-100 p-4">
+                <div class="text-xs text-muted">@Loc["Wallet address"]</div>
+                <div class="mt-1 flex items-center justify-between gap-4">
+                    <code class="text-sm font-medium">@Model.Address</code>
+                    <button type="button" onclick="copyAddress()"
+                            class="text-xs px-3 py-1.5 rounded-lg border border-gray-200 bg-white hover:bg-surface transition">
+                        @Loc["Copy"]
+                    </button>
+                </div>
+                <div class="mt-2 text-xs text-muted">@Loc["Created"] @Model.CreatedAt.ToLocalTime().ToString("dd MMM yyyy")</div>
+            </div>
+        </div>
+
+        <div class="bg-white border border-gray-100 rounded-xl p-6 shadow-sm">
+            <h2 class="text-sm font-semibold">@Loc["Receive"]</h2>
+            <p class="mt-1 text-xs text-muted">
+                @Loc["Share your wallet address or email so someone can send you money."]
+            </p>
+            <div class="mt-4 rounded-lg bg-brand-soft border border-green-100 p-3 text-sm text-brand-dark text-center">
+                @Model.Address
+            </div>
+
+            <div class="mt-6 border-t border-gray-50 pt-4">
+                <h2 class="text-sm font-semibold">@Loc["Quick cash in / out"]</h2>
+
+                <form asp-action="Deposit" method="post" class="mt-3 space-y-2">
+                    @Html.AntiForgeryToken()
+                    <input type="number" name="Amount" step="0.01" min="0.01" placeholder="@Loc["Amount"]"
+                           class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand/40" />
+                    <input type="text" name="Description" placeholder="@Loc["Description (optional)"]" maxlength="255"
+                           class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand/40" />
+                    <button type="submit"
+                            class="w-full px-3 py-2 rounded-lg bg-brand hover:bg-brand-dark text-white text-sm font-medium transition">
+                        @Loc["Deposit"]
+                    </button>
+                </form>
+
+                <form asp-action="Withdraw" method="post" class="mt-3 space-y-2">
+                    @Html.AntiForgeryToken()
+                    <input type="number" name="Amount" step="0.01" min="0.01" placeholder="@Loc["Amount"]"
+                           class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand/40" />
+                    <input type="text" name="Description" placeholder="@Loc["Description (optional)"]" maxlength="255"
+                           class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand/40" />
+                    <button type="submit"
+                            class="w-full px-3 py-2 rounded-lg border border-gray-200 hover:bg-surface text-sm font-medium transition">
+                        @Loc["Withdraw"]
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <script>
+        function copyAddress() {
+            const address = '@Model?.Address';
+            navigator.clipboard?.writeText(address);
+        }
+    </script>
+}

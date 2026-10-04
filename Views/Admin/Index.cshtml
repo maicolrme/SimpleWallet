@@ -1,0 +1,26 @@
+@model AdminStats
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Admin";
+}
+
+<h1 class="text-xl font-semibold">@Loc["Admin"]</h1>
+<p class="text-sm text-muted mb-6">@Loc["Overview of the platform."]</p>
+
+<div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="bg-white border border-gray-100 rounded-xl p-5 shadow-sm">
+        <div class="text-sm text-muted">@Loc["Users"]</div>
+        <div class="mt-1 text-2xl font-semibold">@Model.Users</div>
+        <div class="mt-1 text-xs text-muted">@Model.ActiveUsers @Loc["active"]</div>
+    </div>
+    <div class="bg-white border border-gray-100 rounded-xl p-5 shadow-sm">
+        <div class="text-sm text-muted">@Loc["Wallets"]</div>
+        <div class="mt-1 text-2xl font-semibold">@Model.Wallets</div>
+        <div class="mt-1 text-xs text-muted">@Loc["Total balance"] €@Model.TotalBalance.ToString("N2")</div>
+    </div>
+    <div class="bg-white border border-gray-100 rounded-xl p-5 shadow-sm">
+        <div class="text-sm text-muted">@Loc["Transactions"]</div>
+        <div class="mt-1 text-2xl font-semibold">@Model.Transactions</div>
+        <div class="mt-1 text-xs text-muted">@Loc["Transferred"] €@Model.TotalTransferred.ToString("N2")</div>
+    </div>
+</div>

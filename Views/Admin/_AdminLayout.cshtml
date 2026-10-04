@@ -1,0 +1,114 @@
+@{
+    Layout = null;
+    var path = Context.Request.Path.Value?.ToLowerInvariant() ?? "";
+    var success = TempData["Success"] as string;
+    var error = TempData["Error"] as string;
+    var currentCulture = System.Globalization.CultureInfo.CurrentUICulture.Name;
+
+    string ItemClass(string match) =>
+        path == match || (match != "/admin" && path.StartsWith(match))
+            ? "flex items-center gap-2 px-3 py-2 rounded-lg bg-white/10 text-white text-sm font-medium whitespace-nowrap"
+            : "flex items-center gap-2 px-3 py-2 rounded-lg text-white/60 hover:bg-white/5 hover:text-white text-sm transition whitespace-nowrap";
+}
+<!DOCTYPE html>
+<html lang="@currentCulture">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - SimpleWallet Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { DEFAULT: '#25D366', dark: '#128C7E', soft: '#F0FDF4' },
+                        surface: '#F8FAF9',
+                        ink: '#111827',
+                        muted: '#6B7280'
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body class="min-h-screen bg-surface text-ink antialiased">
+    <header class="bg-white border-b border-gray-100 sticky top-0 z-20">
+        <nav class="h-14 px-4 sm:px-6 flex items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+                <a asp-controller="Admin" asp-action="Index" class="flex items-center gap-2 font-semibold">
+                    <span class="w-8 h-8 rounded-lg bg-ink flex items-center justify-center text-white text-sm font-bold">W</span>
+                    <span>Simple<span class="text-brand-dark">Wallet</span></span>
+                </a>
+                <span class="hidden sm:inline text-[11px] font-semibold uppercase tracking-wide px-2 py-1 rounded-md bg-ink text-white">
+                    @Loc["Admin"]
+                </span>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <partial name="_LanguageSwitcher" />
+                <a asp-controller="Dashboard" asp-action="Index"
+                   class="hidden sm:inline text-sm text-muted hover:text-ink transition">&larr; @Loc["Back to app"]</a>
+                <span class="hidden sm:inline text-sm text-muted">@User.Identity?.Name</span>
+                <form asp-controller="Account" asp-action="Logout" method="post" class="m-0">
+                    @Html.AntiForgeryToken()
+                    <button type="submit"
+                            class="text-sm px-3 py-1.5 rounded-lg border border-gray-200 text-muted hover:text-ink hover:bg-surface transition">
+                        @Loc["Logout"]
+                    </button>
+                </form>
+            </div>
+        </nav>
+    </header>
+
+    <div class="lg:flex">
+        <aside class="bg-ink text-white lg:w-60 lg:sticky lg:top-14 lg:h-[calc(100vh-3.5rem)] shrink-0">
+            <div class="px-5 py-4 hidden lg:block text-xs font-semibold uppercase tracking-wide text-white/50">
+                @Loc["Admin panel"]
+            </div>
+
+            <nav class="flex lg:flex-col gap-1 px-3 py-2 lg:py-0 overflow-x-auto">
+                <a asp-action="Index" class="@ItemClass("/admin")">
+                    <span class="w-1.5 h-1.5 rounded-full bg-current"></span>@Loc["Overview"]
+                </a>
+                <a asp-action="Users" class="@ItemClass("/admin/users")">
+                    <span class="w-1.5 h-1.5 rounded-full bg-current"></span>@Loc["Users"]
+                </a>
+                <a asp-action="Wallets" class="@ItemClass("/admin/wallets")">
+                    <span class="w-1.5 h-1.5 rounded-full bg-current"></span>@Loc["Wallets"]
+                </a>
+                <a asp-action="Transactions" class="@ItemClass("/admin/transactions")">
+                    <span class="w-1.5 h-1.5 rounded-full bg-current"></span>@Loc["Transactions"]
+                </a>
+            </nav>
+
+            <div class="hidden lg:block px-3 py-3">
+                <a asp-controller="Dashboard" asp-action="Index"
+                   class="flex items-center gap-2 px-3 py-2 rounded-lg text-white/60 hover:bg-white/5 hover:text-white text-sm transition">
+                    &larr; @Loc["Back to app"]
+                </a>
+            </div>
+        </aside>
+
+        <main class="flex-1 min-w-0 px-4 sm:px-6 py-6">
+            @if (!string.IsNullOrEmpty(success))
+            {
+                <div class="mb-6 rounded-lg bg-brand-soft border border-green-100 px-4 py-3 text-sm text-brand-dark">
+                    @success
+                </div>
+            }
+            @if (!string.IsNullOrEmpty(error))
+            {
+                <div class="mb-6 rounded-lg bg-red-50 border border-red-100 px-4 py-3 text-sm text-red-600">
+                    @error
+                </div>
+            }
+
+            @RenderBody()
+        </main>
+    </div>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

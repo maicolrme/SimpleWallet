@@ -1,0 +1,38 @@
+@model Transaction
+@{
+    var userId = User.GetUserId();
+    var isReceived = Model.RecipientUserId == userId &&
+                     (Model.Type == TransactionTypes.Deposit || Model.SenderUserId != userId);
+    var isSend = !isReceived;
+    var isSelfService = Model.Type is TransactionTypes.Deposit or TransactionTypes.Withdrawal;
+    var counterparty = isSelfService
+        ? null
+        : isReceived
+            ? Model.SenderUser?.FullName
+            : Model.RecipientUser?.FullName;
+}
+
+<tr class="border-t border-gray-50">
+    <td class="py-3 pr-4 text-sm text-muted whitespace-nowrap">@Model.CreatedAt.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</td>
+    <td class="py-3 pr-4">
+        <div class="text-sm font-medium">@Model.Description</div>
+        <div class="text-xs text-muted">
+            @if (!string.IsNullOrEmpty(counterparty))
+            {
+                <span>@(isReceived ? Loc["From"] : Loc["To"]) @counterparty</span>
+            }
+            else
+            {
+                <span>@Loc[Model.Type]</span>
+            }
+        </div>
+    </td>
+    <td class="py-3 pr-4">
+        <span class="text-xs px-2 py-1 rounded-full @(isReceived ? "bg-brand-soft text-brand-dark" : "bg-gray-100 text-muted")">
+            @(isReceived ? Loc["Received"] : Loc["Sent"])
+        </span>
+    </td>
+    <td class="py-3 text-right whitespace-nowrap text-sm font-medium @(isReceived ? "text-brand-dark" : "text-ink")">
+        @(isReceived ? "+" : "-") €@Model.Amount.ToString("N2")
+    </td>
+</tr>

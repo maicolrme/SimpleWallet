@@ -1,0 +1,38 @@
+@model IReadOnlyList<Transaction>
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Transactions";
+}
+
+<h1 class="text-xl font-semibold">@Loc["Transactions"]</h1>
+<p class="text-sm text-muted mb-6">@Loc["Latest movements on the platform."]</p>
+
+<div class="bg-white border border-gray-100 rounded-xl shadow-sm overflow-x-auto">
+    <table class="w-full">
+        <thead>
+            <tr class="text-left text-xs text-muted">
+                <th class="px-6 py-3 font-medium">@Loc["Date"]</th>
+                <th class="px-6 py-3 font-medium">@Loc["From"]</th>
+                <th class="px-6 py-3 font-medium">@Loc["To"]</th>
+                <th class="px-6 py-3 font-medium">@Loc["Type"]</th>
+                <th class="px-6 py-3 font-medium">@Loc["Description"]</th>
+                <th class="px-6 py-3 font-medium text-right">@Loc["Amount"]</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var transaction in Model)
+            {
+                <tr class="border-t border-gray-50 hover:bg-surface/60">
+                    <td class="px-6 py-3 text-sm text-muted whitespace-nowrap">
+                        @transaction.CreatedAt.ToLocalTime().ToString("dd MMM yyyy, HH:mm")
+                    </td>
+                    <td class="px-6 py-3 text-sm">@(transaction.SenderUser?.FullName ?? "-")</td>
+                    <td class="px-6 py-3 text-sm">@(transaction.RecipientUser?.FullName ?? "-")</td>
+                    <td class="px-6 py-3 text-sm">@Loc[transaction.Type]</td>
+                    <td class="px-6 py-3 text-sm text-muted">@transaction.Description</td>
+                    <td class="px-6 py-3 text-sm text-right font-medium">€@transaction.Amount.ToString("N2")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
