@@ -2,8 +2,7 @@ services:
   wallet:
     build: .
     container_name: simplewallet
-    ports:
-      - "8080:8080"
+    
     volumes:
       - wallet_data:/app/data
     restart: unless-stopped
